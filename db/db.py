@@ -1,18 +1,23 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+from sqlalchemy import Column, Integer, String, Float
+from os import environ
 
 db = SQLAlchemy()
 
 def initDB(app: Flask):
+    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root@localhost/data_analyze"
     db.init_app(app)
-    
+    with app.app_context():
+        db.create_all()
+        
 class AgeMarrige(db.Model):
     
     __tablename__ = "Age_Marrige"
     
-    year = db.Column(db.Integer, primary_key=True)
-    age_group = db.Column(db.String(10), primary_key=True)
-    num = db.Column(db.Integer)
+    year = Column(Integer, primary_key=True)
+    age_group = Column(String(10), primary_key=True)
+    num = Column(Integer)
     
     def __init__(self, year: int, age_group: str, num: int):
         self.year = year
@@ -24,8 +29,8 @@ class Unmarrige(db.Model):
     
     __tablename__ = "unmarrige"
     
-    year = db.Column(db.Integer, primary_key=True)
-    num = db.Column(db.Integer)
+    year = Column(Integer, primary_key=True)
+    num = Column(Integer)
     
     def __init__(self, year: int, num: int):
         self.year = year
@@ -36,8 +41,8 @@ class CPI(db.Model):
     
     __tablename__ = "CPI"
     
-    year = db.Column(db.Integer, primary_key=True)
-    value = db.Column(db.Integer)
+    year = Column(Integer, primary_key=True)
+    value = Column(Float)
     
     def __init__(self, year: int, value: int):
         self.year = year
@@ -48,8 +53,8 @@ class Fertility(db.Model):
     
     __tablename__ = "Fertility"
     
-    year = db.Column(db.Integer, primary_key=True)
-    value = db.Column(db.Integer)
+    year = Column(Integer, primary_key=True)
+    value = Column(Integer)
     
     def __init__(self, year: int, value: int):
         self.year = year
