@@ -6,7 +6,7 @@ from os import environ
 db = SQLAlchemy()
 
 def initDB(app: Flask):
-    app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root@localhost/data_analyze"
+    app.config["SQLALCHEMY_DATABASE_URI"] = environ["SQLALCHEMY_DATABASE_URI"]
     db.init_app(app)
     with app.app_context():
         db.create_all()
