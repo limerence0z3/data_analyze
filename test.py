@@ -1,11 +1,12 @@
 from db import (
     getGrowthRateOfAgeMarriage, getGrowthRateOfUnMarriage, getGrowthRateOfCPI,
-    getGrowthRateOfFertility, getCorrelationWithFertility
+    getGrowthRateOfFertility, getCorrelationWithFertility, getCorrelationOfUnmarriageAndFertility,
+    getCorrelationOfAgeMarriageAndFertility, getCorrelationOfCPIAndFertility
 )
 
 import math
 
 if __name__ == '__main__':
-    print(abs(getCorrelationWithFertility(getGrowthRateOfAgeMarriage())))
-    print(abs(getCorrelationWithFertility(getGrowthRateOfUnMarriage())))
-    print(abs(getCorrelationWithFertility(getGrowthRateOfCPI())))
+    print(getCorrelationOfUnmarriageAndFertility())
+    print(getCorrelationOfAgeMarriageAndFertility())
+    print(getCorrelationOfCPIAndFertility())

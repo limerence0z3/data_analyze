@@ -39,6 +39,14 @@ def getGrowthRateOfAgeMarriage() -> list[tuple[int, float]]:
     return result
 
 def getCorrelationWithFertility(data: list[tuple[int, float]]) -> float:
+    """計算資料與生育率的相關係數 (使用pearson相關係數)
+
+    Args:
+        data (list[tuple[int, float]]): 輸入之資料
+
+    Returns:
+        float: 相關係數
+    """
     data_dict = {"year": [], "value1": []}
     for age in data:
         data_dict["year"].append(age[0])
@@ -89,3 +97,8 @@ def getGrowthRateOfFertility() -> list[tuple[int, float]]:
         result.append((data[i].year, (data[i].value - data[i - 1].value) / data[i].value))
         
     return result
+
+
+getCorrelationOfAgeMarriageAndFertility = lambda: getCorrelationWithFertility(getGrowthRateOfAgeMarriage())
+getCorrelationOfUnmarriageAndFertility = lambda: getCorrelationWithFertility(getGrowthRateOfUnMarriage())
+getCorrelationOfCPIAndFertility = lambda: getCorrelationWithFertility(getGrowthRateOfCPI())
