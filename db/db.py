@@ -1,19 +1,16 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, create_engine
 from os import environ
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-db = SQLAlchemy()
+engine = create_engine(environ["SQLALCHEMY_DATABASE_URI"])
+db = declarative_base()
+Session = sessionmaker(bind=engine)
+session = Session()
 
-def initDB(app: Flask):
-    app.config["SQLALCHEMY_DATABASE_URI"] = environ["SQLALCHEMY_DATABASE_URI"]
-    db.init_app(app)
-    with app.app_context():
-        db.create_all()
-        
-class AgeMarrige(db.Model):
+class AgeMarrige(db):
     
-    __tablename__ = "Age_Marrige"
+    __tablename__ = "age_marrige"
     
     year = Column(Integer, primary_key=True)
     age_group = Column(String(10), primary_key=True)
@@ -25,7 +22,7 @@ class AgeMarrige(db.Model):
         self.num = num
         
         
-class Unmarrige(db.Model):
+class Unmarrige(db):
     
     __tablename__ = "unmarrige"
     
@@ -37,9 +34,9 @@ class Unmarrige(db.Model):
         self.num = num
         
 
-class CPI(db.Model):
+class CPI(db):
     
-    __tablename__ = "CPI"
+    __tablename__ = "cpi"
     
     year = Column(Integer, primary_key=True)
     value = Column(Float)
@@ -49,9 +46,9 @@ class CPI(db.Model):
         self.value = value
         
         
-class Fertility(db.Model):
+class Fertility(db):
     
-    __tablename__ = "Fertility"
+    __tablename__ = "fertility"
     
     year = Column(Integer, primary_key=True)
     value = Column(Integer)
@@ -59,3 +56,6 @@ class Fertility(db.Model):
     def __init__(self, year: int, value: int):
         self.year = year
         self.value = value
+
+def initDB():
+    db.metadata.create_all(engine)
